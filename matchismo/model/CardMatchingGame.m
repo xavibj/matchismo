@@ -12,10 +12,17 @@
 
 @property (strong, nonatomic) NSMutableArray *cards; //Array de Cartes
 @property (nonatomic,readwrite) int score;
+@property (strong,nonatomic,readwrite) NSString *lastFlipResult;
 
 @end
 
 @implementation CardMatchingGame
+
+- (NSString *)lastFlipResult{
+    if (!_lastFlipResult) _lastFlipResult = [[NSString alloc] init];
+    
+    return _lastFlipResult;
+}
 
 - (NSMutableArray *)cards{
     if (!_cards) _cards = [[NSMutableArray alloc] init]; //Lazy instantiation
@@ -65,14 +72,17 @@
                         otherCard.unplayable = YES;
                         card.unplayable = YES;
                         self.score +=matchScore * MATCH_BONUS;
+                        self.lastFlipResult = [NSString stringWithFormat:@"Matched %@ and %@ for 4 points.", card.contents, otherCard.contents];
                     } else {
                         otherCard.faceUp = NO;
                         self.score -= MISMATCH_PENALTY;
+                        self.lastFlipResult = [NSString stringWithFormat:@"%@ and %@ don't match! 2 point penalty.", card.contents, otherCard.contents];
                     }
                     break;
-                }
+               }
             }
             self.score -= FLIP_COST;
+         //   self.lastFlipResult = [NSString stringWithFormat:@"FLIP"];
         }
         card.faceUp = !card.isFaceUp;
     }

@@ -13,6 +13,7 @@
 @interface CardGameViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *flipsLabel;
 @property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
+@property (weak, nonatomic) IBOutlet UILabel *lastFlipLabel;
 @property (nonatomic)int flipCount;
 @property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *cardButtons;
 //@property (strong, nonatomic) Deck *deck;
@@ -60,6 +61,7 @@
         cardButton.alpha = card.isUnplayable ? 0.3 : 1.0;
     }
     self.scoreLabel.text = [NSString stringWithFormat:@"Score: %d",self.game.score];
+    self.lastFlipLabel.text = [NSString stringWithString:self.game.lastFlipResult];
     
 }
 
@@ -85,5 +87,9 @@
     [self updateUI];
 }
 
+- (IBAction)deal {
+    self.game = nil;
+    [self updateUI];
+}
 
 @end
